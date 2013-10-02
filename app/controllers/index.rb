@@ -21,6 +21,14 @@ get '/sign_out' do
   redirect '/'
 end
 
+
+get '/status/:job_id' do
+
+  job_is_complete(params[:job_id])
+  # return the status of a job to an AJAX call
+end
+
+
 get '/auth' do
   # the `request_token` method is defined in `app/helpers/oauth.rb`
   @access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
@@ -55,20 +63,22 @@ post '/send_tweet' do
 
   user = User.find(session[:user_id])
 
-  twitter_user = Twitter::Client.new(
-    :oauth_token => user.oauth_token,
-    :oauth_token_secret => user.oauth_secret
-  )
+  jid = user.tweet(params[:new_tweet])
 
-  if twitter_user.update(params[:new_tweet])
-    message = "Successfully posted new tweet!"
-  else
-    message = "Failed to post new tweet, try again!"
-  end
+  # twitter_user = Twitter::Client.new(
+  #   :oauth_token => user.oauth_token,
+  #   :oauth_token_secret => user.oauth_secret
+  # )
+
+  # if twitter_user.update(params[:new_tweet])
+  #   message = "Successfully posted new tweet!"
+  # else
+  #   message = "Failed to post new tweet, try again!"
+  # end
 
 
   if request.xhr?
-    message
+    jid
   else
     redirect to '/'
   end
