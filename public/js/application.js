@@ -31,17 +31,21 @@ $(document).ready(function() {
 
         url = "/status/"+jid;
 
-        var job_complete = false;
+        var job_complete = "false";
 
-        $.get(url, function(response){
-          job_complete = response;
-          console.log("Response from get: ");
-          console.log(response);
-        });
+        // while ( job_complete !== "true" ) {
+          $.get(url, function(response){
+            console.log("Job complete: ");
+            console.log(job_complete);
 
-        // while ( ! (job_complete) ) {
-        //   setTimeout(function(){
-        //   }, 50);
+            job_complete = response;
+
+            console.log("Job complete: ");
+            console.log(job_complete);
+
+            console.log("Response from get: ");
+            console.log(response);
+          });
         // }
 
         $("#response_message").text(response);

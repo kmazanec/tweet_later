@@ -23,7 +23,6 @@ end
 
 
 get '/status/:job_id' do
-
   if job_is_complete(params[:job_id])
     "true"
   else
