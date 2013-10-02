@@ -24,7 +24,11 @@ end
 
 get '/status/:job_id' do
 
-  job_is_complete(params[:job_id])
+  if job_is_complete(params[:job_id])
+    "true"
+  else
+    "false"
+  end
   # return the status of a job to an AJAX call
 end
 

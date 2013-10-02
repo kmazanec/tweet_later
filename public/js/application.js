@@ -22,7 +22,7 @@ $(document).ready(function() {
 
     new_tweet = new Tweet($(this).find("#new_tweet").val());
 
-    if (new_tweet.length() > 140 ) {
+    if (new_tweet.text.length > 140 ) {
       $("#response_message").text("Your tweet must be less than 140 chars, newb!");
     } else {
       $.post(url, data, function(response){
@@ -30,17 +30,19 @@ $(document).ready(function() {
         var jid = response;
 
         url = "/status/"+jid;
-        data = {};
 
         var job_complete = false;
 
-        while ( ! job_complete ) {
-          $.get(url, data, function(response){
-            job_complete = response;
-          };
-          
-          setTimeout(function(){}, 50);
-        }
+        $.get(url, function(response){
+          job_complete = response;
+          console.log("Response from get: ");
+          console.log(response);
+        });
+
+        // while ( ! (job_complete) ) {
+        //   setTimeout(function(){
+        //   }, 50);
+        // }
 
         $("#response_message").text(response);
         $("#post_new_tweet").trigger("reset");
